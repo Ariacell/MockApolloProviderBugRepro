@@ -9,7 +9,7 @@ interface ApolloComponentProps {
     }
 }
 
-const GET_OBJECT_WITH_ARRAY = gql`query {
+export const GET_OBJECT_WITH_ARRAY = gql`query {
     getObjectWithArray {
       objectId
       objectList {
@@ -28,17 +28,17 @@ const ApolloComponent: React.FC<ApolloComponentProps> = ({counter}) => {
     let ResultComp;
 
     if (result.loading) {
-        ResultComp = <div>LOADING!</div>
+        ResultComp = <p>LOADING!</p>
     } else if (result.error) {
-        ResultComp = <div>ERROR! {JSON.stringify(result.error)}</div>
+        ResultComp = <p>ERROR! {JSON.stringify(result.error)}</p>
     } else if (result.data) {
-        ResultComp = <div>
+        ResultComp = <p>
             {result.data.getObjectWithArray.objectId}
             <br />
             {JSON.stringify(result.data.getObjectWithArray.objectList)}
-        </div>
+        </p>
     } else {
-        ResultComp = <div>NOTHING DONE YET</div>
+        ResultComp = <p>NOTHING DONE YET</p>
     }
 
     const executeLazyQuery = () => {
@@ -52,12 +52,12 @@ const ApolloComponent: React.FC<ApolloComponentProps> = ({counter}) => {
             <h3>
                 The query came back with:
             </h3>
-            <p>
+            <span>
             {ResultComp}
-            </p>
-            <div>
+            </span>
+            <p>
                 lazyQuery has been called: {counter.count} times!
-            </div>
+            </p>
 
         </div>
     )
