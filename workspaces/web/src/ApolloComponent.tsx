@@ -1,12 +1,8 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { useLazyQuery, gql } from '@apollo/client';
 
 
 interface ApolloComponentProps {
-    counter: {
-        count: number,
-        setCount: Dispatch<SetStateAction<number>>
-    }
 }
 
 export const GET_OBJECT_WITH_ARRAY = gql`query {
@@ -21,9 +17,22 @@ export const GET_OBJECT_WITH_ARRAY = gql`query {
   }
 `
 
-const ApolloComponent: React.FC<ApolloComponentProps> = ({counter}) => {
+const ApolloComponent: React.FC<ApolloComponentProps> = () => {
+    
+    const [completionCount, setCompletionCount] = useState(0);
 
-    const [lazyQuery, result] = useLazyQuery(GET_OBJECT_WITH_ARRAY)
+    const [lazyQuery, result] = useLazyQuery(GET_OBJECT_WITH_ARRAY, {
+        onCompleted: res => {
+            console.log("We have completed the query " + completionCount + " times.");
+            console.log("The result this time was " + JSON.stringify(res))
+            if (!!(res && res.getObjectWithArray && res.getObjectWithArray.objectId && res.getObjectWithArray.objectList && res.getObjectWithArray.objectList[0])) {
+                console.log("We did it! succesfully got all the data");
+            } else {
+                console.log("Not enough data returned yet!");
+                executeLazyQuery();
+            }
+        }
+    })
 
     let ResultComp;
 
@@ -43,7 +52,7 @@ const ApolloComponent: React.FC<ApolloComponentProps> = ({counter}) => {
 
     const executeLazyQuery = () => {
         lazyQuery();
-        counter.setCount(counter.count + 1);
+        setCompletionCount(completionCount + 1);
     }
 
     return (
@@ -56,7 +65,7 @@ const ApolloComponent: React.FC<ApolloComponentProps> = ({counter}) => {
             {ResultComp}
             </span>
             <p>
-                lazyQuery has been called: {counter.count} times!
+                lazyQuery has been called: {completionCount} times!
             </p>
 
         </div>

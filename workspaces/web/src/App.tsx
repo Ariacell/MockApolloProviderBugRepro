@@ -7,9 +7,6 @@ import ApolloComponent from './ApolloComponent';
 
 const App = () => {
 
-  const [completionCount, setCompletionCount] = useState(0);
-
-
   const client = getApolloClient();
   return (
     <div className="App">
@@ -19,7 +16,7 @@ const App = () => {
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
-          <ApolloComponent counter={{ count: completionCount, setCount: setCompletionCount }}/>
+          <ApolloComponent/>
         </header>
       </ApolloProvider>
     </div>
