@@ -2,5 +2,8 @@
     "private": true,
     "name": "example-monorepo",
     "workspaces": ["workspaces/*"],
-    "scripts": {}
+    "scripts": {
+        "start:server": "yarn workspace server start:dev",
+        "start:web": "yarn workspace web start:dev"
+    }
  }

@@ -20,7 +20,7 @@
   "scripts": {
     "start": "node dist/server.js",
     "build": "tsc -p . && ncp src/schema dist/schema",
-    "build:dev": "nodemon src/server.ts --exec ts-node src/server.ts -e ts,graphql"
+    "start:dev": "nodemon src/server.ts --exec ts-node src/server.ts -e ts,graphql"
   },
   "dependencies": {
     "@types/compression": "^1.7.0",
