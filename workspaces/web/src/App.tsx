@@ -1,24 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { getApolloClient } from './apolloClient';
+import { ApolloProvider } from '@apollo/client';
+import ApolloComponent from './ApolloComponent';
 
-function App() {
+const App = () => {
+
+  const [completionCount, setCompletionCount] = useState(0);
+
+
+  const client = getApolloClient();
   return (
     <div className="App">
-      <header className="App-header">
+      <ApolloProvider client={client}>
+        <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+          <ApolloComponent counter={{ count: completionCount, setCount: setCompletionCount }}/>
+        </header>
+      </ApolloProvider>
     </div>
   );
 }
