@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
-import { useLazyQuery, gql } from '@apollo/client';
+import { useLazyQuery, gql, LazyQueryResult } from '@apollo/client';
 
 
 interface ApolloComponentProps {
@@ -22,7 +22,11 @@ const ApolloComponent: React.FC<ApolloComponentProps> = () => {
     const [completionCount, setCompletionCount] = useState(0);
 
     const [lazyQuery, result] = useLazyQuery(GET_OBJECT_WITH_ARRAY, {
+        fetchPolicy: "network-only",
+        // notifyOnNetworkStatusChange: true,
         onCompleted: res => {
+            const completedCount = completionCount + 1;
+            setCompletionCount(completedCount);
             console.log("We have completed the query " + completionCount + " times.");
             console.log("The result this time was " + JSON.stringify(res))
             if (!!(res && res.getObjectWithArray && res.getObjectWithArray.objectId && res.getObjectWithArray.objectList && res.getObjectWithArray.objectList[0])) {
@@ -52,7 +56,17 @@ const ApolloComponent: React.FC<ApolloComponentProps> = () => {
 
     const executeLazyQuery = () => {
         lazyQuery();
-        setCompletionCount(completionCount + 1);
+    }
+
+    const startPollingIfResult = (res: LazyQueryResult<any, any>) => {
+        if (!!res)
+            //@ts-ignore
+            res.startPolling(500);
+    }
+    const stopPollingIfResult = (res: LazyQueryResult<any, any>) => {
+        if (!!res)
+            //@ts-ignore
+            res.stopPolling(500);
     }
 
     return (
@@ -67,7 +81,10 @@ const ApolloComponent: React.FC<ApolloComponentProps> = () => {
             <p>
                 lazyQuery has been called: {completionCount} times!
             </p>
-
+            <p>Polling test section:</p>
+            <button onClick={() => startPollingIfResult(result)}>Start Polling</button>
+            <button onClick={() => stopPollingIfResult(result)}>Stop Polling</button>
+            <br/>
         </div>
     )
 }
