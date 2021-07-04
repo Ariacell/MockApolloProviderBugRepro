@@ -10,7 +10,7 @@ In two terminals:
 ``` bash
 cd workspaces/web && yarn && yarn start
 ```
-To run tests with jest in workspaces/web, run 
+To run tests with jest in workspaces, run 
 ```
 yarn test
 ```
