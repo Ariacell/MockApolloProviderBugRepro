@@ -46,9 +46,9 @@ const ApolloComponent: React.FC<ApolloComponentProps> = () => {
         ResultComp = <p>ERROR! {JSON.stringify(result.error)}</p>
     } else if (result.data) {
         ResultComp = <p>
-            {result.data.getObjectWithArray.objectId}
+            {result.data.getObjectWithArray?.objectId}
             <br />
-            {JSON.stringify(result.data.getObjectWithArray.objectList)}
+            {JSON.stringify(result.data.getObjectWithArray?.objectList)}
         </p>
     } else {
         ResultComp = <p>NOTHING DONE YET</p>

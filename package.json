@@ -4,6 +4,7 @@
     "workspaces": ["workspaces/*"],
     "scripts": {
         "start:server": "yarn workspace server start:dev",
-        "start:web": "yarn workspace web start:dev"
+        "start:web": "yarn workspace web start:dev",
+        "test": "yarn workspaces run test"
     }
  }
